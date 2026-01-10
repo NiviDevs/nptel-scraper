@@ -37,3 +37,4 @@ dmypy.run
 .idea/
 .vscode/
 *.swp
+downloaded_page.html
