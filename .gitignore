@@ -38,3 +38,4 @@ dmypy.run
 .vscode/
 *.swp
 downloaded_page.html
+data.html
