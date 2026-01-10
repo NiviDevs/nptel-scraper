@@ -5,8 +5,8 @@ print(r.status_code)
 print(r.text[:500])
 
 with open(
-    "downloadable_html.html",
+    "data.html",
     "w",
-) as f:
+encoding='utf-8') as f:
     f.write(r.text)
 # raw html i shal not push because its like 30k lines dawg
