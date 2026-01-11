@@ -43,26 +43,59 @@ courses = data["courses"]
 for c in courses:
     c["title_lower"] = c["title"].lower()
 
-st.title("NPTEL Course Stats Explorer")
 
-# ---- search ----
-st.markdown('<div class="card">', unsafe_allow_html=True)
-query = st.text_input("Course name", placeholder="Type part of the course title")
-st.markdown("</div>", unsafe_allow_html=True)
+st.title("NPTEL Course Stats Scraper")
+st.write(
+    "Well it was supposed to be a scraper until I found NPTEL hasnt secured their endpoints 😭🙏"
+)
 
-results = []
-if query:
-    q = query.lower()
-    results = [c for c in courses if q in c["title_lower"]]
+# ---- Layout Split ----
+# Create two columns. On mobile, these will automatically stack.
+col1, col2 = st.columns(2, gap="medium")
 
+with col1:
+    st.markdown(
+        """
+        <div class="card">
+        <h4>About this project</h4>
+        <p>
+        this tool was built because I'd rather spend 6 hours on automation over 1 hour on manual labour.
+        if it helped you even a little, please consider starring the repo on github 🙏.
+        thanks gng
+        </p>
+        <p>
+        <a href="https://github.com/NiviDevs/nptel-scraper" target="_blank">
+            GitHub repository
+        </a>
+        </p>
+
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+# Initialize variables outside the column to ensure scope validity
 selected_course = None
 
-if results:
-    options = {
-        f"{c['title']} | {c['instituteName']} | {c['professor']}": c for c in results
-    }
-    selected_label = st.selectbox("Matching courses", options.keys())
-    selected_course = options[selected_label]
+with col2:
+    # ---- search ----
+    query = st.text_input("Course name", placeholder="Course Name")
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    results = []
+    if query:
+        q = query.lower()
+        results = [c for c in courses if q in c["title_lower"]]
+
+    if results:
+        options = {
+            f"{c['title']} | {c['instituteName']} | {c['professor']}": c
+            for c in results
+        }
+        selected_label = st.selectbox(
+            "Search results (select one to get stats)", options.keys()
+        )
+        selected_course = options[selected_label]
 
 
 @st.cache_data(show_spinner=False)
@@ -126,8 +159,8 @@ if selected_course:
             st.markdown("</div>", unsafe_allow_html=True)
 
             st.markdown('<div class="card">', unsafe_allow_html=True)
-            st.subheader("Run-wise Statistics")
+            st.subheader("Year-wise Statistics")
             st.dataframe(df, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
         else:
-            st.warning("No run-wise statistics available")
+            st.warning("Fresh course, no stats")
