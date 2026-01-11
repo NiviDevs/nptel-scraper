@@ -164,3 +164,7 @@ if selected_course:
             st.markdown("</div>", unsafe_allow_html=True)
         else:
             st.warning("Fresh course, no stats")
+
+pdf_path = "NPTEL courses.pdf"
+
+st.pdf(pdf_path, height=500)
