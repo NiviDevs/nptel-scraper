@@ -31,7 +31,7 @@ logs/
 .mypy_cache/
 .dmypy.json
 dmypy.run
-
+!filtered_courses.json
 .ipynb_checkpoints
 
 .idea/
